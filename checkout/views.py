@@ -7,6 +7,7 @@ from rest_framework.response import Response
 import decimal
 from django.db import transaction
 import stripe
+from decouple import config
 
 # Create your views here.
 class LinkAPIView(APIView):
@@ -68,7 +69,7 @@ class OrderAPIView(APIView):
                     }
                 )
 
-            stripe.api_key = "sk_test_51BPm3OK3aMB650Irhmns4ghYTjBvyHzBiWIL8T4BGo7LFWXuins435e8UgRxjZwZNHZ4xKbdcfUOlUXIuHhmtq7H00Z9eroPhf"
+            stripe.api_key = config("stripe.api_key")
 
             source = stripe.checkout.Session.create(
                 success_url="http://localhost:5000/success?source={CHECKOUT_SESSION_ID}",
